@@ -1,4 +1,4 @@
-This is a lambda function for replicating AWS S3 bucket uploads to an over-vender S3 compatible storage solution
+This is a lambda function for replicating AWS S3 bucket uploads to an other-vender S3 compatible storage solution
 
 The 3rd-party vender in this example is called Filebase
 
