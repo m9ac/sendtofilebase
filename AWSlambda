@@ -1,0 +1,27 @@
+import json
+import boto3
+
+
+def lambda_handler(event, context):
+    # TODO implement
+    target_bucket = 'FILEBASEBUCKETNAME'
+    
+    print(json.dumps(event))
+    s3_client = boto3.client('s3')
+    filebase_session = boto3.Session(aws_access_key_id='FILEBASEAPIKEY', aws_secret_access_key='FILEBASEAPISECRET',region_name='us-east-1')
+    filebase_client = filebase_session.client('s3', endpoint_url='https://s3.filebase.com')
+    
+    
+    source_bucket = event['Records'][0]['s3']['bucket']['name']
+    source_key = event['Records'][0]['s3']['object']['key']
+    
+    print(f'Source bucket is : {source_bucket}')
+    print(f'Source key is : {source_key}')
+    
+    source_object = s3_client.get_object(Bucket=source_bucket, Key=source_key)
+    filebase_client.upload_fileobj(source_object['Body'], target_bucket, source_key)
+ 
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Hello from Lambda!')
+    }
